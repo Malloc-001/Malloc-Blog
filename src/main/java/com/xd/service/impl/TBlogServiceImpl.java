@@ -6,17 +6,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xd.entity.TBlog;
 import com.xd.entity.TType;
 import com.xd.entity.TUser;
+import com.xd.entityVO.RecommendBlogVo;
 import com.xd.entityVO.TBlogVo;
 import com.xd.mapper.TBlogMapper;
-import com.xd.service.TBlogService;
+import com.xd.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xd.service.TTypeService;
-import com.xd.service.TUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -33,7 +33,12 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
     TTypeService typeService;
     @Autowired
     TUserService userService;
+    @Autowired
+    TMessageService messageService;
+    @Autowired
+    TCommentService commentService;
 
+    @Override
     public Page<TBlogVo> getAllBlog(Page<TBlog> Page){
         QueryWrapper<TBlog> blogQueryWrapper = new QueryWrapper<>();
         blogQueryWrapper.orderByDesc("create_time");
@@ -59,7 +64,71 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
         }
         Page<TBlogVo> blogVoPage = new Page<>(blogPage.getCurrent(),10,blogPage.getPages()*10);
         blogVoPage.setRecords(blogVoList);
-        blogVoPage.setPages(blogPage.getPages());
         return blogVoPage;
     }
+
+    @Override
+    public Page<TBlogVo> getSearchBlog(String queryContent) {
+        QueryWrapper<TBlog> blogQueryWrapper = new QueryWrapper<>();
+        blogQueryWrapper.like("content",queryContent)
+                .or()
+                .like("description",queryContent)
+                .or()
+                .like("title",queryContent);
+        List<TBlog> blogList = this.list(blogQueryWrapper);
+        List<TBlogVo> blogVoList = new ArrayList<>();
+        for (TBlog blog : blogList){
+            TBlogVo blogVo = new TBlogVo();
+            BeanUtil.copyProperties(blog,blogVo);
+//            设置blogVo所属类型
+            QueryWrapper<TType> typeQueryWrapper = new QueryWrapper<>();
+            typeQueryWrapper.eq("id",blog.getTypeId());
+            blogVo.setTypeName(this.typeService.getOne(typeQueryWrapper).getName());
+//            设置blogVo的作者名
+            QueryWrapper<TUser> tUserQueryWrapper = new QueryWrapper<>();
+            tUserQueryWrapper.eq("id",blog.getUserId());
+            TUser user = this.userService.getOne(tUserQueryWrapper);
+            blogVo.setNickName(user.getNickname());
+//            设置blogVo的作者头像
+            blogVo.setAvatar(user.getAvatar());
+            blogVoList.add(blogVo);
+        }
+        Page<TBlogVo> blogVoPage = new Page<>(1,1000,blogList.size());
+        blogVoPage.setRecords(blogVoList);
+        return blogVoPage;
+    }
+
+    @Override
+    public List<RecommendBlogVo> getRecommendBlog() {
+        QueryWrapper<TBlog> blogQueryWrapper = new QueryWrapper<>();
+        blogQueryWrapper.eq("recommend",true).last("LIMIT 0,4").orderByDesc("create_time");
+        List<TBlog> blogList = this.list(blogQueryWrapper);
+        List<RecommendBlogVo> reBlogVoList = new ArrayList<>();
+        for (TBlog blog : blogList){
+            RecommendBlogVo reBlogVo = new RecommendBlogVo();
+            BeanUtil.copyProperties(blog,reBlogVo);
+            reBlogVoList.add(reBlogVo);
+        }
+        return reBlogVoList;
+    }
+
+    @Override
+    public int getBlogViewsTotal() {
+        QueryWrapper<TBlog> blogQueryWrapper = new QueryWrapper<>();
+        blogQueryWrapper.select("COALESCE(sum(views),0) as total");
+        Map<String, Object> map = this.getMap(blogQueryWrapper);
+        int total = Integer.parseInt(map.get("total").toString());
+        return total;
+    }
+
+    @Override
+    public int getblogCommentTotal() {
+        return commentService.count();
+    }
+
+    @Override
+    public int getBlogMessageTotal() {
+        return messageService.count();
+    }
+
 }

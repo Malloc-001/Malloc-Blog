@@ -3,14 +3,19 @@ package com.xd.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xd.entity.TBlog;
+import com.xd.entity.TComment;
+import com.xd.entityVO.RecommendBlogVo;
 import com.xd.entityVO.TBlogVo;
 import com.xd.service.TBlogService;
+import com.xd.service.TCommentService;
+import com.xd.service.TMessageService;
 import com.xd.service.impl.TBlogServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -30,24 +35,43 @@ import java.util.List;
 @Controller
 public class TBlogController {
     @Autowired
-    TBlogServiceImpl blogServiceImpl;
+    TBlogService blogService;
 
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/")
     public String index(Page<TBlog> blogPage, Model model){
-
-//        Page<TBlog> page =new Page<>(pageNum,10);
-//        BlogMapper.selectPage(page,null);
-
-        Page<TBlogVo> allBlog = blogServiceImpl.getAllBlog(blogPage);
-        System.out.println(allBlog.getRecords());
-//        System.out.println(pageNum);
+        Page<TBlogVo> allBlog = blogService.getAllBlog(blogPage);
         model.addAttribute("pageInfo",allBlog);
-//        List<TBlog> allBlog = blogServiceImpl.getAllBlog();
-//        Page<TBlog> tBlogPage = new Page<>();
-
+        List<RecommendBlogVo> recommendedBlog = blogService.getRecommendBlog();
+        model.addAttribute("recommendedBlogs", recommendedBlog);
         return "index";
     }
+    //    搜索博客
+    @PostMapping("/search")
+    public String search(Model model,
+                         @RequestParam String query) {
+        Page<TBlogVo> searchBlog = blogService.getSearchBlog(query);
+//        PageHelper.startPage(pageNum, 1000);
+//        List<FirstPageBlog> searchBlog = blogService.getSearchBlog(query);
+//        PageInfo<FirstPageBlog> pageInfo = new PageInfo<>(searchBlog);
+        model.addAttribute("pageInfo", searchBlog);
+        model.addAttribute("query", query);
+        return "search";
+    }
+    //    博客信息
+    @GetMapping("/footer/blogmessage")
+    public String blogMessage(Model model){
+        int blogTotal = blogService.count();
+        int blogViewsTotal = blogService.getBlogViewsTotal();
+        int blogCommentTotal = blogService.getblogCommentTotal();
+        int blogMessageTotal = blogService.getBlogMessageTotal();
+        model.addAttribute("blogTotal",blogTotal);
+        model.addAttribute("blogViewTotal",blogViewsTotal);
+        model.addAttribute("blogCommentTotal",blogCommentTotal);
+        model.addAttribute("blogMessageTotal",blogMessageTotal);
+        return "index :: blogMessage";
+    }
+
 
 }
 
