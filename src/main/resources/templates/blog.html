@@ -59,7 +59,7 @@
           </div>
           <div class="item">
             <i class="user outline outline icon m-font-size-text-mini"></i>
-            <a href="#" style="color: #ffffff;font-size: 15px" th:text="${blog.nickname}">ONESTAR</a>
+            <a href="#" style="color: #ffffff;font-size: 15px" th:text="${blog.nickName}">ONESTAR</a>
           </div>
           <div class="item">
             <i class="calendar icon m-font-size-text-mini"></i>
@@ -483,7 +483,7 @@ h5,h6{font-size:1em;}
       <div class="ui middle aligned stackable grid">
         <div class="nine wide column">
           <ui class="list">
-            <li>作者：<span th:text="${blog.nickname}">ONESTAR</span><a href="#" th:href="@{/about}" target="_blank">（联系作者）</a></li>
+            <li>作者：<span th:text="${blog.nickName}">ONESTAR</span><a href="#" th:href="@{/about}" target="_blank">（联系作者）</a></li>
             <li>发表时间：<span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd HH:mm')}">2020-01-02 09:08</span></li>
             <li>版权声明：自由转载-非商用-非衍生-保持署名（创意共享3.0许可证）</li>
             <li>转载声明：如果是转载栈主转载的文章，请附上原文链接</li>

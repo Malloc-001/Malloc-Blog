@@ -4,6 +4,7 @@ package com.xd.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xd.entity.TBlog;
 import com.xd.entity.TComment;
+import com.xd.entityVO.DetailBlogVo;
 import com.xd.entityVO.RecommendBlogVo;
 import com.xd.entityVO.TBlogVo;
 import com.xd.service.TBlogService;
@@ -14,12 +15,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -57,6 +55,17 @@ public class TBlogController {
         model.addAttribute("pageInfo", searchBlog);
         model.addAttribute("query", query);
         return "search";
+    }
+    //    博客详情页面
+    @GetMapping("/blog/{id}")
+    public String blog(@PathVariable Long id, Model model) {
+//        DetailedBlog detailedBlog = blogService.getDetailedBlog(id);
+        DetailBlogVo detailedBlog = blogService.getDetailedBlog(id);
+//        List<Comment> comments = commentService.listCommentByBlogId(id);
+        List<TComment> comments = blogService.getCommentsByBlogId(id);
+        model.addAttribute("comments", comments);
+        model.addAttribute("blog", detailedBlog);
+        return "blog";
     }
     //    博客信息
     @GetMapping("/footer/blogmessage")

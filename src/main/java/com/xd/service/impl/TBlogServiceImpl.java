@@ -4,13 +4,16 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xd.entity.TBlog;
+import com.xd.entity.TComment;
 import com.xd.entity.TType;
 import com.xd.entity.TUser;
+import com.xd.entityVO.DetailBlogVo;
 import com.xd.entityVO.RecommendBlogVo;
 import com.xd.entityVO.TBlogVo;
 import com.xd.mapper.TBlogMapper;
 import com.xd.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xd.util.MarkdownUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -110,6 +113,34 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
             reBlogVoList.add(reBlogVo);
         }
         return reBlogVoList;
+    }
+
+    @Override
+    public DetailBlogVo getDetailedBlog(Long id) {
+        TBlog blog = this.getById(id);
+        DetailBlogVo detailBlogVo = new DetailBlogVo();
+        BeanUtil.copyProperties(blog,detailBlogVo);
+//        内容转换成markdown形式
+        detailBlogVo.setContent(MarkdownUtils.markdownToHtmlExtensions(blog.getContent()));
+//        设置DetailBlogVo的Type
+        QueryWrapper<TType> typeQueryWrapper = new QueryWrapper<>();
+        typeQueryWrapper.eq("id",blog.getTypeId());
+        detailBlogVo.setTypeName(typeService.getOne(typeQueryWrapper).getName());
+//        设置DetailBlogVo的nickName和头像
+        QueryWrapper<TUser> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("id",blog.getUserId());
+        TUser user = userService.getOne(userQueryWrapper);
+        detailBlogVo.setNickName(user.getNickname());
+        detailBlogVo.setAvatar(user.getAvatar());
+        return detailBlogVo;
+    }
+
+    @Override
+    public List<TComment> getCommentsByBlogId(Long id) {
+        QueryWrapper<TComment> commentQueryWrapper = new QueryWrapper<>();
+        commentQueryWrapper.eq("blog_id",id);
+        List<TComment> commentList = commentService.list(commentQueryWrapper);
+        return commentList;
     }
 
     @Override
