@@ -4,7 +4,7 @@
 
 博客地址：[暂时还没有]()
 
-> 因为没有审美天赋所以前端就不写了，前端是从[**myblog-mybatis**](https://github.com/oneStarLR/myblog-mybatis#myblog-mybaits)拉取的，目前是把后端删了重写，把mybatis更改为mybatisPlus。还新增了一些其他的功能。目前还在完善中
+> 因为没有审美天赋所以前端就不写了，前端是从[**myblog-mybatis**](https://github.com/oneStarLR/myblog-mybatis#myblog-mybaits)拉取的，目前是把后端删了重写，把mybatis更改为mybatisPlus。还新增了一些其他的功能。目前还在完善中，还请关注。
 
 **使用该源码希望能够注明原博客以及源码出处，并禁止商用，谢谢！**
 
