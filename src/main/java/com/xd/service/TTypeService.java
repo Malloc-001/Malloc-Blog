@@ -1,7 +1,12 @@
 package com.xd.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xd.entity.TType;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xd.entityVO.TBlogVo;
+import com.xd.entityVO.TypeVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +18,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TTypeService extends IService<TType> {
 
+    Page<TBlogVo> getBlogByType(long id);
+
+    List<TypeVo> getAllTypeAndBlog();
 }

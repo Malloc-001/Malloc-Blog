@@ -60,13 +60,13 @@
       <div class="ui container" align="center">
         <div class="ui labeled button m-margin-tb-tiny" th:each="type : ${types}">
           <a href="#" th:href="@{/types/{id}(id=${type.id})}" class="ui basic  button" th:classappend="${type.id==activeTypeId} ? 'teal'" th:text="${type.name}">好文</a>
-          <div class="ui basic  left pointing label" th:classappend="${type.id==activeTypeId} ? 'teal'" th:text="${#arrays.length(type.blogs)}">24</div>
+          <div class="ui basic  left pointing label" th:classappend="${type.id==activeTypeId} ? 'teal'" th:text="${type.blogNum}">24</div>
         </div>
       </div>
     </div>
 
     <div class="ui top attached teal m-opacity segment">
-      <div class="ui padded vertical segment m-padded-tb-large" th:each="blog : ${pageInfo.list}">
+      <div class="ui padded vertical segment m-padded-tb-large" th:each="blog : ${pageInfo.getRecords()}">
         <div class="ui middle aligned mobile reversed stackable grid" >
           <div class="eleven wide column">
             <h3 class="ui header" ><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black m-title-font" th:text="${blog.title}">大圣，此去欲何?</a></h3>
@@ -76,7 +76,7 @@
                 <div class="ui mini horizontal link list">
                   <div class="item">
                     <img src="../static/images/me.jpg" th:src="@{${blog.avatar}}"  alt="" class="ui avatar image">
-                    <div class="content"><a href="#" th:href="@{/about}" target="_blank" class="header" th:text="${blog.nickname}" >oneStar</a></div>
+                    <div class="content"><a href="#" th:href="@{/about}" target="_blank" class="header" th:text="${blog.nickName}" >oneStar</a></div>
                   </div>
                   <div class="item">
                     <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-01-01</span>
@@ -108,15 +108,15 @@
     <!--分页-->
     <div class="ui bottom attached segment m-opacity stackable grid">
       <div class="three wide column" align="center">
-        <a class="item" th:href="@{/types(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}" th:unless="${pageInfo.isFirstPage}">上一页</a>
+        <a class="item" th:href="@{/(current=${pageInfo.hasPrevious()}?${pageInfo.current-1}:1)}" th:if="${pageInfo.hasPrevious()}">上一页</a>
       </div>
 
       <div class="ten wide column" align="center">
-        <p> <span th:text="${pageInfo.pageNum}"></span> / <span th:text="${pageInfo.pages}"></span> </p>
+        <p> <span th:text="${pageInfo.current}"></span> / <span th:text="${pageInfo.getPages()}"></span> </p>
       </div>
 
       <div class="three wide column" align="center">
-        <a class="item" th:href="@{/types(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}" th:unless="${pageInfo.isLastPage}">下一页</a>
+        <a class="item" th:href="@{/(current=${pageInfo.hasNext()}?${pageInfo.current+1}:${pageInfo.getPages()})}" th:if="${pageInfo.hasNext()}">下一页</a>
       </div>
     </div>
 
