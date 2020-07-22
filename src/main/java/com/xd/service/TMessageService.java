@@ -2,6 +2,8 @@ package com.xd.service;
 
 import com.xd.entity.TMessage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xd.entity.TUser;
+import com.xd.entityVO.MessageVo;
 
 import java.util.List;
 
@@ -14,5 +16,7 @@ import java.util.List;
  * @since 2020-07-20
  */
 public interface TMessageService extends IService<TMessage> {
-    List<TMessage> getAllMessage();
+    List<MessageVo> getAllMessage();
+
+    List<MessageVo> saveMessage(TMessage message, TUser user);
 }

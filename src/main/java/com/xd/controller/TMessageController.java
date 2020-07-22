@@ -1,15 +1,21 @@
 package com.xd.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.xd.entity.TMessage;
+import com.xd.entity.TUser;
+import com.xd.entityVO.MessageVo;
 import com.xd.service.TMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static com.sun.org.apache.xml.internal.serializer.utils.Utils.messages;
@@ -26,6 +32,7 @@ import static com.sun.org.apache.xml.internal.serializer.utils.Utils.messages;
 public class TMessageController {
     @Autowired
     TMessageService messageService;
+
     @GetMapping("/message")
     public String message() {
         return "message";
@@ -33,7 +40,20 @@ public class TMessageController {
     //    查询留言
     @GetMapping("/messagecomment")
     public String messages(Model model) {
-        List<TMessage> allMessage = this.messageService.getAllMessage();
+        List<MessageVo> allMessage = this.messageService.getAllMessage();
+        model.addAttribute("messages", allMessage);
+        return "message::messageList";
+    }
+//    新增留言
+    @PostMapping("/message")
+    public String saveMessage(MessageVo messageVo, HttpSession session,Model model){
+        TUser user = (TUser) session.getAttribute("user");
+        if (messageVo.getParentMessage().getId() != null) {
+            messageVo.setParentMessageId(messageVo.getParentMessage().getId());
+        }
+        TMessage message = new TMessage();
+        BeanUtil.copyProperties(messageVo,message);
+        List<MessageVo> allMessage = messageService.saveMessage(message, user);
         model.addAttribute("messages", allMessage);
         return "message::messageList";
     }

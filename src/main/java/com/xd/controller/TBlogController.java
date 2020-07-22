@@ -46,12 +46,8 @@ public class TBlogController {
     }
     //    搜索博客
     @PostMapping("/search")
-    public String search(Model model,
-                         @RequestParam String query) {
+    public String search(Model model, @RequestParam String query) {
         Page<TBlogVo> searchBlog = blogService.getSearchBlog(query);
-//        PageHelper.startPage(pageNum, 1000);
-//        List<FirstPageBlog> searchBlog = blogService.getSearchBlog(query);
-//        PageInfo<FirstPageBlog> pageInfo = new PageInfo<>(searchBlog);
         model.addAttribute("pageInfo", searchBlog);
         model.addAttribute("query", query);
         return "search";
@@ -59,9 +55,7 @@ public class TBlogController {
     //    博客详情页面
     @GetMapping("/blog/{id}")
     public String blog(@PathVariable Long id, Model model) {
-//        DetailedBlog detailedBlog = blogService.getDetailedBlog(id);
         DetailBlogVo detailedBlog = blogService.getDetailedBlog(id);
-//        List<Comment> comments = commentService.listCommentByBlogId(id);
         List<TComment> comments = blogService.getCommentsByBlogId(id);
         model.addAttribute("comments", comments);
         model.addAttribute("blog", detailedBlog);
