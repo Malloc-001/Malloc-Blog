@@ -15,5 +15,16 @@ import java.util.List;
  */
 public interface TFriendService extends IService<TFriend> {
 
+    /**
+     * 得到所有友链通过list对象返回
+     * @return
+     */
     List<TFriend> getAllFriend();
+
+    /**
+     * 判断是否有相同的链接
+     * @return
+     * @param blogAddress
+     */
+    boolean isSameLink(String blogAddress);
 }

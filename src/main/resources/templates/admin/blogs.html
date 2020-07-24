@@ -100,17 +100,17 @@
           </tr>
           </thead>
           <tbody>
-          <tr align="center" th:each="blog,iterStat : ${pageInfo.list}">
+          <tr align="center" th:each="blog,iterStat : ${pageInfo.getRecords()}">
             <td th:text="${iterStat.count}">1</td>
             <td th:text="${blog.title}">大圣，此去欲何?</td>
-            <td th:text="${blog.getType().name}">我的故事</td>
+            <td th:text="${blog.typeName}">我的故事</td>
             <td th:text="${blog.recommend} ? '是':'否'">是</td>
             <td th:text="${blog.published} ? '发布':'草稿'">草稿</td>
             <td th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd HH:mm')}">2020-01-02 05:20</td>
             <td>
               <!--th:href="@{/admin/types/{id}/input(id=${type.id})}"-->
-              <a href="#" th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui mini teal basic button">编辑</a>
-              <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}" onclick="return confirm('确定要删除该文章吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
+              <a href="#" th:href="@{/admin/blogs/toInput/{id}(id=${blog.id})}" class="ui mini teal basic button">编辑</a>
+              <a href="#" th:href="@{/admin/blogs/delete/{id}(id=${blog.id})}" onclick="return confirm('确定要删除该文章吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
             </td>
           </tr>
           </tbody>
@@ -119,19 +119,19 @@
             <th colspan="7">
               <div class="ui inverted divided stackable grid">
                 <div class="three wide column" align="center">
-                  <a class="item" th:href="@{/admin/blogs(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}" th:unless="${pageInfo.isFirstPage}">上一页</a>
+                  <a class="item" th:href="@{/admin/blogs(current=${pageInfo.current-1})}" th:if="${pageInfo.hasPrevious()}">上一页</a>
                 </div>
 
                 <div class="ten wide column" align="center">
-                  <p>第 <span th:text="${pageInfo.pageNum}"></span> 页，共 <span th:text="${pageInfo.pages}"></span> 页，有 <span th:text="${pageInfo.total}"></span> 篇文章</p>
+                  <p>第 <span th:text="${pageInfo.current}"></span> 页，共 <span th:text="${pageInfo.getPages()}"></span> 页，有 <span th:text="${pageInfo.total}"></span> 篇文章</p>
                 </div>
 
                 <div class="three wide column" align="center">
-                  <a class="item" th:href="@{/admin/blogs(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}" th:unless="${pageInfo.isLastPage}">下一页</a>
+                  <a class="item" th:href="@{/admin/blogs(current=${pageInfo.current+1})}" th:if="${pageInfo.hasNext()}">下一页</a>
                 </div>
               </div>
               <div align="center">
-                <a href="#" th:href="@{/admin/blogs/input}">
+                <a href="#" th:href="@{/admin/input/blogs}">
                   <button type="button" class="ui teal button m-mobile-wide m-margin-top"><i class="pencil icon"></i>新增</button>
                 </a>
               </div>

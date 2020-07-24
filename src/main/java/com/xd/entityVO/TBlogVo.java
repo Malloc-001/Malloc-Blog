@@ -1,9 +1,6 @@
 package com.xd.entityVO;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -34,8 +31,9 @@ public class TBlogVo {
 
     @ApiModelProperty(value = "描述")
     private String description;
-
-//      type
+    /**
+     * 博客所属类型
+     */
     @ApiModelProperty(value = "type名")
     private String typeName;
 

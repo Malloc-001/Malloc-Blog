@@ -67,7 +67,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr align="center" th:each="picture,iterStat : ${pageInfo.list}">
+          <tr align="center" th:each="picture,iterStat : ${pageInfo.getRecords()}">
             <td th:text="${iterStat.count}">1</td>
             <td th:text="${picture.picturename}">东西冲徒步</td>
             <td th:text="${picture.picturetime}">2019年12月31日 深圳</td>
@@ -82,15 +82,15 @@
             <th colspan="6" >
               <div class="ui inverted divided stackable grid">
                 <div class="three wide column" align="center">
-                  <a class="item" th:href="@{/admin/pictures(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}" th:unless="${pageInfo.isFirstPage}">上一页</a>
+                  <a class="item" th:href="@{/admin/pictures(current=${pageInfo.current-1})}" th:if="${pageInfo.hasPrevious()}">上一页</a>
                 </div>
 
                 <div class="ten wide column" align="center">
-                  <p>第 <span th:text="${pageInfo.pageNum}"></span> 页，共 <span th:text="${pageInfo.pages}"></span> 页，有 <span th:text="${pageInfo.total}"></span> 个分类</p>
+                  <p>第 <span th:text="${pageInfo.current}"></span> 页，共 <span th:text="${pageInfo.getPages()}"></span> 页，有 <span th:text="${pageInfo.total}"></span> 个分类</p>
                 </div>
 
                 <div class="three wide column" align="center">
-                  <a class="item" th:href="@{/admin/pictures(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}" th:unless="${pageInfo.isLastPage}">下一页</a>
+                  <a class="item" th:href="@{/admin/pictures(current=${pageInfo.current+1})}" th:if="${pageInfo.hasNext()}">下一页</a>
                 </div>
               </div>
 

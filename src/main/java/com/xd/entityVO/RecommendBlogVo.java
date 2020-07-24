@@ -14,6 +14,9 @@ public class RecommendBlogVo {
     @ApiModelProperty(value = "标题")
     private String title;
 
+    @ApiModelProperty(value = "分类id")
+    private Long typeId;
+
     @ApiModelProperty(value = "首图")
     private String firstPicture;
 }

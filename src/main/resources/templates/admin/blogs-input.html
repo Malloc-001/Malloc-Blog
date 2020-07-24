@@ -55,6 +55,9 @@
       <form id="blog-form" action="#" th:object="${blog}" th:action="*{id}==null ? @{/admin/blogs} : @{/admin/blogs/{id}(id=*{id})}" method="post" class="ui form">
         <input type="hidden" name="published" th:value="*{published}">
         <input type="hidden" name="id" th:value="*{id}">
+        <input type="hidden" name="updateTime" th:value="*{updateTime}">
+        <input type="hidden" name="views" th:value="*{views}">
+        <input type="hidden" name="commentCount" th:value="*{commentCount}">
 
         <div class="required field">
           <div class="ui left labeled input">

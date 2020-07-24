@@ -69,7 +69,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr align="center" th:each="friendlink,iterStat : ${pageInfo.list}">
+          <tr align="center" th:each="friendlink,iterStat : ${pageInfo.getRecords()}">
             <td th:text="${iterStat.count}">1</td>
             <td th:text="${friendlink.blogname}">ONESTAR</td>
             <td th:text="${friendlink.blogaddress}">http://122.51.28.187:8080/</td>
@@ -78,7 +78,7 @@
             <!--th:text="${#dates.format(message.createTime,'yyyy-MM-dd HH:mm')}"-->
             <td>
               <a href="#" th:href="@{/admin/friendlinks/{id}/input(id=${friendlink.id})}" class="ui mini teal basic button">编辑</a>
-              <a href="#" th:href="@{/admin/friendlinks/{id}/delete(id=${friendlink.id})}" onclick="return confirm('确定要删除该友链吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
+              <a href="#" th:href="@{/admin/friendlinks/delete/{id}(id=${friendlink.id})}" onclick="return confirm('确定要删除该友链吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
             </td>
           </tr>
         </tbody>
@@ -87,15 +87,15 @@
             <th colspan="6" >
               <div class="ui inverted divided stackable grid">
                 <div class="three wide column" align="center">
-                  <a class="item" th:href="@{/admin/friendlinks(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}" th:unless="${pageInfo.isFirstPage}">上一页</a>
+                  <a class="item" th:href="@{/admin/friendlinks(current=${pageInfo.current-1})}" th:if="${pageInfo.hasPrevious()}">上一页</a>
                 </div>
 
                 <div class="ten wide column" align="center">
-                  <p>第 <span th:text="${pageInfo.pageNum}"></span> 页，共 <span th:text="${pageInfo.pages}"></span> 页，有 <span th:text="${pageInfo.total}"></span> 个分类</p>
+                  <p>第 <span th:text="${pageInfo.current}"></span> 页，共 <span th:text="${pageInfo.getPages()}"></span> 页，有 <span th:text="${pageInfo.total}"></span> 个分类</p>
                 </div>
 
                 <div class="three wide column" align="center">
-                  <a class="item" th:href="@{/admin/friendlinks(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}" th:unless="${pageInfo.isLastPage}">下一页</a>
+                  <a class="item" th:href="@{/admin/friendlinks(current=${pageInfo.current+1})}" th:if="${pageInfo.hasNext()}">下一页</a>
                 </div>
               </div>
 

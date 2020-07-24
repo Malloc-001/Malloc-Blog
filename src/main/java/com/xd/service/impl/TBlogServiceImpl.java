@@ -10,6 +10,7 @@ import com.xd.entity.TUser;
 import com.xd.entityVO.DetailBlogVo;
 import com.xd.entityVO.RecommendBlogVo;
 import com.xd.entityVO.TBlogVo;
+import com.xd.entityVO.adminShowBlogVo;
 import com.xd.mapper.TBlogMapper;
 import com.xd.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -73,8 +74,7 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
     @Override
     public Page<TBlogVo> getSearchBlog(String queryContent) {
         QueryWrapper<TBlog> blogQueryWrapper = new QueryWrapper<>();
-        blogQueryWrapper.like("content",queryContent)
-                .or()
+        blogQueryWrapper
                 .like("description",queryContent)
                 .or()
                 .like("title",queryContent);
@@ -97,6 +97,28 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
             blogVoList.add(blogVo);
         }
         Page<TBlogVo> blogVoPage = new Page<>(1,1000,blogList.size());
+        blogVoPage.setRecords(blogVoList);
+        return blogVoPage;
+    }
+
+    @Override
+    public Page<adminShowBlogVo> adminSearchBlog(RecommendBlogVo searchBlog) {
+        System.out.println(searchBlog);
+        QueryWrapper<TBlog> blogQueryWrapper = new QueryWrapper<>();
+        blogQueryWrapper.eq("type_id",searchBlog.getTypeId()).like("title",searchBlog.getTitle());
+        List<TBlog> blogList = this.list(blogQueryWrapper);
+        List<adminShowBlogVo> blogVoList = new ArrayList<>();
+        for (TBlog blog : blogList){
+            adminShowBlogVo blogVo = new adminShowBlogVo();
+            BeanUtil.copyProperties(blog,blogVo);
+//            设置博客文章的类型名称
+            QueryWrapper<TType> typeQueryWrapper = new QueryWrapper<>();
+            typeQueryWrapper.eq("id",blog.getTypeId());
+            TType type = typeService.getOne(typeQueryWrapper);
+            blogVo.setTypeName(type.getName());
+            blogVoList.add(blogVo);
+        }
+        Page<adminShowBlogVo> blogVoPage = new Page<>(1,1000,blogList.size());
         blogVoPage.setRecords(blogVoList);
         return blogVoPage;
     }
@@ -133,6 +155,28 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
         detailBlogVo.setNickName(user.getNickname());
         detailBlogVo.setAvatar(user.getAvatar());
         return detailBlogVo;
+    }
+
+    @Override
+    public Page<adminShowBlogVo> getAdminShowBlog(Page<TBlog> page) {
+        QueryWrapper<TBlog> blogQueryWrapper = new QueryWrapper<>();
+        blogQueryWrapper.orderByDesc("create_time");
+        Page<TBlog> Page = this.page(page,blogQueryWrapper);
+        List<TBlog> blogList = Page.getRecords();
+        List<adminShowBlogVo> blogVoList = new ArrayList<>();
+        for (TBlog blog : blogList){
+            adminShowBlogVo blogVo = new adminShowBlogVo();
+            BeanUtil.copyProperties(blog,blogVo);
+//            设置博客文章的类型名称
+            QueryWrapper<TType> typeQueryWrapper = new QueryWrapper<>();
+            typeQueryWrapper.eq("id",blog.getTypeId());
+            TType type = typeService.getOne(typeQueryWrapper);
+            blogVo.setTypeName(type.getName());
+            blogVoList.add(blogVo);
+        }
+        Page<adminShowBlogVo> blogVoPage = new Page<>(Page.getCurrent(),Page.getSize(),Page.getTotal());
+        blogVoPage.setRecords(blogVoList);
+        return blogVoPage;
     }
 
     @Override

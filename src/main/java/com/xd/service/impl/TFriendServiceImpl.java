@@ -1,5 +1,6 @@
 package com.xd.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xd.entity.TFriend;
 import com.xd.mapper.TFriendMapper;
 import com.xd.service.TFriendService;
@@ -24,4 +25,15 @@ public class TFriendServiceImpl extends ServiceImpl<TFriendMapper, TFriend> impl
         List<TFriend> friendList = this.list();
         return friendList;
     }
+
+    @Override
+    public boolean isSameLink(String blogAddress) {
+        QueryWrapper<TFriend> friendQueryWrapper = new QueryWrapper<>();
+        friendQueryWrapper.eq("blogaddress",blogAddress);
+        if (this.getOne(friendQueryWrapper) != null){
+            return true;
+        }
+        return false;
+    }
+
 }
