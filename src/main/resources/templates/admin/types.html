@@ -69,12 +69,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr align="center" th:each="type,iterStat : ${pageInfo.list}">
+          <tr align="center" th:each="type,iterStat : ${pageInfo.getRecords()}">
             <td th:text="${iterStat.count}">1</td>
             <td th:text="${type.name}">我的故事</td>
             <td>
-              <a href="#" th:href="@{/admin/types/{id}/input(id=${type.id})}" class="ui mini teal basic button">编辑</a>
-              <a href="#" th:href="@{/admin/types/{id}/delete(id=${type.id})}"  onclick="return confirm('确定要删除该分类吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
+              <a href="#" th:href="@{/admin/types/toUpdate/{id}(id=${type.id})}" class="ui mini teal basic button">更新</a>
+              <a href="#" th:href="@{/admin/types/delete/{id}(id=${type.id})}"  onclick="return confirm('确定要删除该分类吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
             </td>
           </tr>
         </tbody>
@@ -83,15 +83,15 @@
             <th colspan="6" >
               <div class="ui inverted divided stackable grid">
                 <div class="three wide column" align="center">
-                  <a class="item" th:href="@{/admin/types(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}" th:unless="${pageInfo.isFirstPage}">上一页</a>
+                  <a class="item" th:href="@{/admin/types(current=${pageInfo.current-1} )}" th:if="${pageInfo.hasPrevious()}">上一页</a>
                 </div>
 
                 <div class="ten wide column" align="center">
-                  <p>第 <span th:text="${pageInfo.pageNum}"></span> 页，共 <span th:text="${pageInfo.pages}"></span> 页，有 <span th:text="${pageInfo.total}"></span> 个分类</p>
+                  <p>第 <span th:text="${pageInfo.current}"></span> 页，共 <span th:text="${pageInfo.getPages()}"></span> 页，有 <span th:text="${pageInfo.total}"></span> 个分类</p>
                 </div>
 
                 <div class="three wide column" align="center">
-                  <a class="item" th:href="@{/admin/types(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}" th:unless="${pageInfo.isLastPage}">下一页</a>
+                  <a class="item" th:href="@{/admin/types(current=${pageInfo.current+1})}" th:if="${pageInfo.hasNext()}">下一页</a>
                 </div>
               </div>
               <div align="center">

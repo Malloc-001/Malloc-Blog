@@ -168,7 +168,7 @@
             <!--分页-->
             <div class="ui bottom attached segment m-opacity stackable grid">
                 <div class="three wide column" align="center">
-                    <a class="item" th:href="@{/(current=${pageInfo.hasPrevious()}?${pageInfo.current-1}:1)}" th:if="${pageInfo.hasPrevious()}">上一页</a>
+                    <a class="item" th:href="@{/(current=${pageInfo.current-1})}" th:if="${pageInfo.hasPrevious()}">上一页</a>
                 </div>
 
                 <div class="ten wide column" align="center">
@@ -176,7 +176,7 @@
                 </div>
 
                 <div class="three wide column" align="center">
-                    <a class="item" th:href="@{/(current=${pageInfo.hasNext()}?${pageInfo.current+1}:${pageInfo.getPages()})}" th:if="${pageInfo.hasNext()}">下一页</a>
+                    <a class="item" th:href="@{/(current=${pageInfo.current+1})}" th:if="${pageInfo.hasNext()}">下一页</a>
                 </div>
             </div>
 

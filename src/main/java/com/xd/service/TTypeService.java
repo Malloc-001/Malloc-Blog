@@ -17,8 +17,23 @@ import java.util.List;
  * @since 2020-07-20
  */
 public interface TTypeService extends IService<TType> {
-
+    /**
+     * 根据博客类型把博客分类
+     * @return
+     */
     Page<TBlogVo> getBlogByType(long id);
 
+    /**
+     *
+     * @return
+     */
     List<TypeVo> getAllTypeAndBlog();
+
+    /**
+     * 分页显示所有Type
+     * @return
+     */
+    Page<TType> getAllTypePage( Page<TType> page);
+
+    TType getTypeByName(String name);
 }

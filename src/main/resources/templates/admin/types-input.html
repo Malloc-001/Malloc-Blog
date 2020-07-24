@@ -53,7 +53,7 @@
   <!--中间内容-->
   <div  class="m-container-small m-padded-tb-massive">
     <div class="ui container">
-      <form action="#" method="post" th:action="*{id}==null ? @{/admin/types} : @{/admin/types/{id}(id=*{id})} " class="ui form">
+      <form action="#" method="post" th:action="*{id}==null ? @{/admin/types} : @{/admin/types/update/{id}(id=*{id})} " class="ui form">
         <input type="hidden" name="id" th:value="${type.getId()}">
         <div class=" field">
           <div class="ui left labeled input">

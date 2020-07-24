@@ -7,18 +7,15 @@ import com.xd.entity.TUser;
 import com.xd.entityVO.MessageVo;
 import com.xd.service.TMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-
-import static com.sun.org.apache.xml.internal.serializer.utils.Utils.messages;
 
 /**
  * <p>
@@ -39,7 +36,7 @@ public class TMessageController {
     }
     //    查询留言
     @GetMapping("/messagecomment")
-    public String messages(Model model) {
+    public String  messages(Model model) {
         List<MessageVo> allMessage = this.messageService.getAllMessage();
         model.addAttribute("messages", allMessage);
         return "message::messageList";

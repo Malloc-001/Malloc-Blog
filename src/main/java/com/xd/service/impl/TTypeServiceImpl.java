@@ -75,4 +75,19 @@ public class TTypeServiceImpl extends ServiceImpl<TTypeMapper, TType> implements
         }
         return TWBLS;
     }
+
+    @Override
+    public Page<TType> getAllTypePage( Page<TType> page) {
+        QueryWrapper<TType> typeQueryWrapper= new QueryWrapper<>();
+        typeQueryWrapper.orderByDesc("id");
+        Page<TType> typePage = this.page(page, typeQueryWrapper);
+        return typePage;
+    }
+
+    @Override
+    public TType getTypeByName(String name) {
+        QueryWrapper<TType> typeQueryWrapper = new QueryWrapper<>();
+        typeQueryWrapper.eq("name",name);
+        return this.getOne(typeQueryWrapper);
+    }
 }

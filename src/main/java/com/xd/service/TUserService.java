@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-07-20
  */
 public interface TUserService extends IService<TUser> {
-
+    TUser checkUser(String username,String password);
 }

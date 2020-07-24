@@ -46,23 +46,8 @@ public class TMessageServiceImpl extends ServiceImpl<TMessageMapper, TMessage> i
             findreplayMessage(messageVo,messageVo.getReplyMessages());
             messageVoList.add(messageVo);
         }
-
         return messageVoList;
     }
-
-    @Override
-    public List<MessageVo> saveMessage(TMessage message, TUser user) {
-        message.setCreateTime(new Date());
-        if (user != null){
-            message.setAvatar(user.getAvatar());
-            message.setAdminMessage(true);
-        } else{
-            message.setAvatar(avatar);
-        }
-        this.save(message);
-        return getAllMessage();
-    }
-
     //            查询此留言的一级留言以及二级留言等等和父留言
     private MessageVo findreplayMessage(MessageVo message,List<MessageVo> replayMessage){
         if (message.getParentMessageId() != -1){
@@ -87,5 +72,18 @@ public class TMessageServiceImpl extends ServiceImpl<TMessageMapper, TMessage> i
             }
         }
         return message;
+    }
+//    新增留言
+    @Override
+    public List<MessageVo> saveMessage(TMessage message, TUser user) {
+        message.setCreateTime(new Date());
+        if (user != null){
+            message.setAvatar(user.getAvatar());
+            message.setAdminMessage(true);
+        } else{
+            message.setAvatar(avatar);
+        }
+        this.save(message);
+        return getAllMessage();
     }
 }
