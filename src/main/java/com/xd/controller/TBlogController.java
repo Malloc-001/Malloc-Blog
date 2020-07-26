@@ -4,6 +4,7 @@ package com.xd.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xd.entity.TBlog;
 import com.xd.entity.TComment;
+import com.xd.entityVO.CommentVo;
 import com.xd.entityVO.DetailBlogVo;
 import com.xd.entityVO.RecommendBlogVo;
 import com.xd.entityVO.TBlogVo;
@@ -34,6 +35,8 @@ import java.util.List;
 public class TBlogController {
     @Autowired
     TBlogService blogService;
+    @Autowired
+    TCommentService commentService;
 
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/")
@@ -56,7 +59,7 @@ public class TBlogController {
     @GetMapping("/blog/{id}")
     public String blog(@PathVariable Long id, Model model) {
         DetailBlogVo detailedBlog = blogService.getDetailedBlog(id);
-        List<TComment> comments = blogService.getCommentsByBlogId(id);
+        List<CommentVo> comments = commentService.getCommentByBlogId(id);
         model.addAttribute("comments", comments);
         model.addAttribute("blog", detailedBlog);
         return "blog";

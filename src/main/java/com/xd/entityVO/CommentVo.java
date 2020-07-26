@@ -55,7 +55,7 @@ public class CommentVo {
     private String parentNickname;
 
     @ApiModelProperty(value = "子评论")
-    private List<CommentVo> replyComments = new ArrayList<CommentVo>();
+    private List<CommentVo> replyComments = new ArrayList<>();
 
     @ApiModelProperty(value = "博客")
     private DetailBlogVo blog;

@@ -59,13 +59,6 @@ public interface TBlogService extends IService<TBlog> {
     Page<adminShowBlogVo> getAdminShowBlog(Page<TBlog> page);
 
     /**
-     * 获取博客文章评论的详情
-     * @param id
-     * @return
-     */
-    List<TComment> getCommentsByBlogId(Long id);
-
-    /**
      * 获取博客文章的总浏览量
      * @return
      */

@@ -182,14 +182,6 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
     }
 
     @Override
-    public List<TComment> getCommentsByBlogId(Long id) {
-        QueryWrapper<TComment> commentQueryWrapper = new QueryWrapper<>();
-        commentQueryWrapper.eq("blog_id",id);
-        List<TComment> commentList = commentService.list(commentQueryWrapper);
-        return commentList;
-    }
-
-    @Override
     public int getBlogViewsTotal() {
         QueryWrapper<TBlog> blogQueryWrapper = new QueryWrapper<>();
         blogQueryWrapper.select("COALESCE(sum(views),0) as total");

@@ -2,6 +2,7 @@ package com.xd.service;
 
 import com.xd.entity.TComment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xd.entity.TUser;
 import com.xd.entityVO.CommentVo;
 
 import java.util.List;
@@ -16,4 +17,5 @@ import java.util.List;
  */
 public interface TCommentService extends IService<TComment> {
     List<CommentVo> getCommentByBlogId(Long blogId);
+    void saveComment(CommentVo commentVo, TUser user);
 }
