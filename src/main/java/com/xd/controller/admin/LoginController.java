@@ -20,7 +20,10 @@ public class LoginController {
     TUserService userService;
 
     @GetMapping
-    public String loginPage(){
+    public String loginPage(HttpSession session){
+        if (session.getAttribute("user") != null){
+            return "redirect:admin/blogs";
+        }
         return "admin/login";
     }
 

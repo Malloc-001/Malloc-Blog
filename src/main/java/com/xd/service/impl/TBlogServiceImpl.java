@@ -105,7 +105,9 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
     public Page<adminShowBlogVo> adminSearchBlog(RecommendBlogVo searchBlog) {
         System.out.println(searchBlog);
         QueryWrapper<TBlog> blogQueryWrapper = new QueryWrapper<>();
-        blogQueryWrapper.eq("type_id",searchBlog.getTypeId()).like("title",searchBlog.getTitle());
+        blogQueryWrapper.eq("type_id",searchBlog.getTypeId())
+                .like("title",searchBlog.getTitle())
+                .orderByDesc("create_time");
         List<TBlog> blogList = this.list(blogQueryWrapper);
         List<adminShowBlogVo> blogVoList = new ArrayList<>();
         for (TBlog blog : blogList){
