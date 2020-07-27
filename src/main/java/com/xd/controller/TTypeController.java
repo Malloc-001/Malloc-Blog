@@ -33,10 +33,10 @@ public class TTypeController {
     public String types(@PathVariable Long id, Model model) throws Exception {
         List<TypeVo> allTypes = typeService.getAllTypeAndBlog();
         if (id == -1){
-            if (allTypes == null){
-                throw new Exception("没有博客的类型");
+            if (!allTypes.isEmpty()){
+                id = allTypes.get(0).getId();
             }
-            id = allTypes.get(0).getId();
+
         }
         Page<TBlogVo> blogVoPage = typeService.getBlogByType(id);
         model.addAttribute("types", allTypes);
