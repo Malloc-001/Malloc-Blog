@@ -8,8 +8,10 @@ import com.xd.entity.TUser;
 import com.xd.entityVO.CommentVo;
 import com.xd.entityVO.MessageVo;
 import com.xd.mapper.TCommentMapper;
+import com.xd.service.TBlogService;
 import com.xd.service.TCommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,9 @@ import java.util.List;
  */
 @Service
 public class TCommentServiceImpl extends ServiceImpl<TCommentMapper, TComment> implements TCommentService {
-    @Value("${message.avatar}")
+    @Autowired
+    TBlogService blogService;
+    @Value("${comment.avatar}")
     String avatar;
 
     @Override
@@ -61,6 +65,8 @@ public class TCommentServiceImpl extends ServiceImpl<TCommentMapper, TComment> i
         if (commentVo.getParentComment().getId() != null) {
             comment.setParentCommentId(commentVo.getParentComment().getId());
         }
+        System.out.println(commentVo.getBlogId());
+        blogService.updateCommentNum(commentVo.getBlogId());
         this.save(comment);
     }
 
