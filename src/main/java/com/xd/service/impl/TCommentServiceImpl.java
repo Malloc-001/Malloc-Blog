@@ -66,7 +66,7 @@ public class TCommentServiceImpl extends ServiceImpl<TCommentMapper, TComment> i
             comment.setParentCommentId(commentVo.getParentComment().getId());
         }
         System.out.println(commentVo.getBlogId());
-        blogService.updateCommentNum(commentVo.getBlogId());
+        blogService.updateCommentAndViews(commentVo.getBlogId());
         this.save(comment);
     }
 

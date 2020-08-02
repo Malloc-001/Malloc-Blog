@@ -30,7 +30,7 @@ public class DruidConfig {
 
 //        后台登录账号密码
         initParameters.put("loginUsername","root");
-        initParameters.put("loginPassword","goodMalloc");
+        initParameters.put("loginPassword","root");
 
 //        谁可以访问
         initParameters.put("allow","");

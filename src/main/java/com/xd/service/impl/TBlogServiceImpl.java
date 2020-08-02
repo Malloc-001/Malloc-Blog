@@ -156,7 +156,7 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
         TUser user = userService.getOne(userQueryWrapper);
         detailBlogVo.setNickName(user.getNickname());
         detailBlogVo.setAvatar(user.getAvatar());
-        updateCommentNum(id);
+        updateCommentAndViews(id);
         return detailBlogVo;
     }
 
@@ -202,13 +202,14 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
     }
 
     @Override
-    public void updateCommentNum(Long id) {
+    public void updateCommentAndViews(Long id) {
         TBlog blog = this.getById(id);
-        //        更新评论数
+        //        更新评论数和浏览量
         QueryWrapper<TComment> commentQueryWrapper = new QueryWrapper<>();
         commentQueryWrapper.eq("blog_id",id);
         int count = commentService.count(commentQueryWrapper);
         blog.setCommentCount(count);
+        blog.setViews(blog.getViews()+1);
         this.updateById(blog);
     }
 

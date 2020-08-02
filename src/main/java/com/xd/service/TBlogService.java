@@ -75,8 +75,8 @@ public interface TBlogService extends IService<TBlog> {
     int getBlogMessageTotal();
 
     /**
-     * 更新评论数
+     * 更新评论数和浏览量
      * @param id
      */
-    void updateCommentNum(Long id);
+    void updateCommentAndViews(Long id);
 }
