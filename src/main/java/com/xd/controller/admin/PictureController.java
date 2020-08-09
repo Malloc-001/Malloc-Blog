@@ -30,8 +30,9 @@ public class PictureController {
      */
     @GetMapping("/pictures")
     public String pictures(Model model, @RequestParam(defaultValue = "1",value = "current") Integer current) {
-        Page<TPicture> picturePage = new Page<>(current,10);
-        picturePage.setRecords(pictureService.getAllPicture());
+        List<TPicture> allPicture = pictureService.getAllPicture();
+        Page<TPicture> picturePage = new Page<>(current,10,allPicture.size());
+        picturePage.setRecords(allPicture);
         model.addAttribute("pageInfo",picturePage);
         return "admin/pictures";
     }
@@ -101,7 +102,7 @@ public class PictureController {
      * @param attributes
      * @return
      */
-    @GetMapping("/pictures/{id}/delete")
+    @GetMapping("/pictures/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes attributes){
         boolean removeFlag = pictureService.removeById(id);
         if (!removeFlag) {
