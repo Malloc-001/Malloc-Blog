@@ -1,7 +1,9 @@
+comment.avatar: /images/avatar.png
+message.avatar: /images/avatar.png
 spring:
   thymeleaf:
     mode: HTML
   messages:
     basename: i18n/messages
-comment.avatar: /images/avatar.png
-message.avatar: /images/avatar.png
+  profiles:
+    active: dev

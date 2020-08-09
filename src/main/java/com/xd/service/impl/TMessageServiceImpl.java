@@ -29,7 +29,7 @@ import java.util.List;
 public class TMessageServiceImpl extends ServiceImpl<TMessageMapper, TMessage> implements TMessageService {
 
     @Value("${message.avatar}")
-    private String avatar;
+    String avatar;
 
 //    Y的表示有ParentNickName
 //    N表示没有ParentNickName

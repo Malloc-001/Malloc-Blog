@@ -114,11 +114,19 @@ public class BlogController {
     /**
      * 修改文章
      * @param blog
-     * @param attributes
      * @return
      */
     @PostMapping("/blogs/{id}")
-    public String editPost(TBlog blog, RedirectAttributes attributes,HttpSession session) {
+    public String editPost(TBlog blog, HttpSession session) {
+        if (blog.getAppreciation() == null){
+            blog.setAppreciation(false);
+        }if (blog.getCommentabled() == null){
+            blog.setCommentabled(false);
+        }if (blog.getRecommend() == null){
+            blog.setRecommend(false);
+        }if (blog.getShareStatement() == null){
+            blog.setShareStatement(false);
+        }
         TUser user = (TUser) session.getAttribute("user");
         blog.setUserId(user.getId());
         blogService.updateById(blog);
