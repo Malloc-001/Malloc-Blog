@@ -37,6 +37,9 @@ public class TBlogVo {
     @ApiModelProperty(value = "type名")
     private String typeName;
 
+    @ApiModelProperty(value = "分类id")
+    private Long typeId;
+
 //      User
     @ApiModelProperty(value = "用户名称")
     private String nickName;

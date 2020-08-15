@@ -149,7 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="right aligned five wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.typeName}">好文</a>
+                                    <a th:href="@{/types/{id}(id=${blog.typeId})}" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.typeName}">好文</a>
                                 </div>
                             </div>
                         </div>

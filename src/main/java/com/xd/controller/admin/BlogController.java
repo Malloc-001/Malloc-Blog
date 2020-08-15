@@ -68,6 +68,15 @@ public class BlogController {
      */
     @PostMapping("/blogs")
     public String post(TBlog blog, RedirectAttributes attributes, HttpSession session){
+        if (blog.getAppreciation() == null){
+            blog.setAppreciation(false);
+        }if (blog.getCommentabled() == null){
+            blog.setCommentabled(false);
+        }if (blog.getRecommend() == null){
+            blog.setRecommend(false);
+        }if (blog.getShareStatement() == null){
+            blog.setShareStatement(false);
+        }
 //        设置博客文章作者id
         TUser user = (TUser) session.getAttribute("user");
         blog.setUserId(user.getId());

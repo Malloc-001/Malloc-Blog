@@ -19,13 +19,13 @@ public class Swagger2Config {
     @Bean
     public Docket docket(Environment environment){
         //        在这里可以监测是否处于某项目环境下 需要在docket的传入参数中加入Environment environment参数
-        Profiles profiles= Profiles.of("dev");
-        boolean flag = environment.acceptsProfiles(profiles);
+//        Profiles profiles= Profiles.of("dev");
+//        boolean flag = environment.acceptsProfiles(profiles);
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("Malloc")
                 .apiInfo(getApiInfo())
-                .enable(flag)
+                .enable(false)
                 .select()// this will automatically fall back to building the docket when the build method is called.
 //                这里获取到了ApiSelectorBuilder对象
                 .apis(RequestHandlerSelectors.basePackage("com.xd.controller"))
