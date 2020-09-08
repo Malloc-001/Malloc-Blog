@@ -80,6 +80,7 @@ public class BlogController {
 //        设置博客文章作者id
         TUser user = (TUser) session.getAttribute("user");
         blog.setUserId(user.getId());
+        System.out.println(blog);
         int saveFlag = blogMapper.insert(blog);
         if(saveFlag == 1){
             attributes.addFlashAttribute("message", "新增成功");
